@@ -19,18 +19,20 @@ const LoginForm = () => {
 
     try {
       const response = await axios.post(
-        `${process.env.URL}/api/auth/login` || "/api/auth/login",
+        `${process.env.URL}/api/auth/login`,
         { email, password }
       );
 
       if (response.data.success) {
         router.push("/dashboard");
       } else {
-        setError(response.data.error);
+        setError(response.data.error || "Login failed");
       }
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
+      } else {
+        setError("An unexpected error occurred");
       }
     } finally {
       setLoading(false);
