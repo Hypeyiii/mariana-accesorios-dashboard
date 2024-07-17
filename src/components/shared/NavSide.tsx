@@ -16,7 +16,7 @@ export default function NavSide({ show }: { show: boolean }) {
   const logout = async () => {
     setLoading(true);
     try {
-      const response = await axios.post("/api/auth/logout");
+      const response = await axios.post(`${process.env.URL}/api/auth/logout` || "/api/auth/logout");
       if (response.data.success) {
         router.push("/");
       }

@@ -18,7 +18,10 @@ const LoginForm = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post("/api/auth/login", { email, password });
+      const response = await axios.post(
+        `${process.env.URL}/api/auth/login` || "/api/auth/login",
+        { email, password }
+      );
 
       if (response.data.success) {
         router.push("/dashboard");
