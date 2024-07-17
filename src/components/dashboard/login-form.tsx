@@ -19,7 +19,7 @@ const LoginForm = () => {
 
     try {
       const response = await axios.post(
-        `${process.env.URL}/api/auth/login`,
+        `/api/auth/login`,
         { email, password }
       );
 
