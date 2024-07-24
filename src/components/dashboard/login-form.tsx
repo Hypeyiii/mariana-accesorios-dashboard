@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import Loader from "../ui/loader";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -18,10 +19,7 @@ const LoginForm = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        `/api/auth/login`,
-        { email, password }
-      );
+      const response = await axios.post(`/api/auth/login`, { email, password });
 
       if (response.data.success) {
         router.push("/dashboard");
@@ -81,9 +79,15 @@ const LoginForm = () => {
           {error && <div className="mb-4 text-sm text-red-500">{error}</div>}
           <button
             type="submit"
-            className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-600"
+            className="w-full flex flex-row gap-1 items-center justify-center px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-600"
           >
-            {loading ? "Cargando..." : "Iniciar sesión"}
+            {loading ? (
+              <>
+                <p>Cargando...</p> <Loader />
+              </>
+            ) : (
+              "Iniciar sesión"
+            )}
           </button>
         </form>
       </div>

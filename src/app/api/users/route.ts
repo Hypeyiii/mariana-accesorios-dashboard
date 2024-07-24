@@ -6,7 +6,15 @@ export async function GET(req: NextRequest) {
 
   try {
     client = await db.connect();
-    const data = await client.query(`SELECT * FROM users`);
+    const data = await client.query(
+      `SELECT 
+         u.*, 
+         COUNT(o.id) AS order_count, 
+         COALESCE(SUM(o.amount), 0) AS total_amount
+       FROM users u
+       LEFT JOIN orders o ON u.id = o.userid
+       GROUP BY u.id`
+    );
     const users = data.rows;
     return NextResponse.json(users);
   } catch (err) {
